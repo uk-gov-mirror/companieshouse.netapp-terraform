@@ -38,8 +38,6 @@ module "cvo" {
     local.default_tags,
     map(
       "ServiceTeam", "Storage"
-      "tenable-cwp-scan-disabled", "true"
-      "Repository", "netapp-terraform"
     )
   )
 }
