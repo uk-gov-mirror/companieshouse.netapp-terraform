@@ -42,9 +42,7 @@ module "cvo2" {
     local.default_tags,
     tomap(
       {
-        ServiceTeam               = "Storage"
-        tenable-cwp-scan-disabled = "true"
-        Repository                = "netapp-terraform"
+        ServiceTeam = "Storage"
       }
     )
   )
