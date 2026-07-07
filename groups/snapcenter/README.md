@@ -1,4 +1,4 @@
-# SnapCenter Linux Terraform Configuration
+# NetApp Terraform | SnapCenter
 
 This Terraform configuration deploys instances using the netapp-snapcenter-ami which includes:
 - RHEL 9
@@ -17,14 +17,20 @@ CloudWatch alarms are configured for:
 - CPU utilisation
 - Disk usage
 
-## Post-run Ansible
+## Required Post-run Ansible
 
-To fully set up instances using this ami, you need to run `netapp-snapcenter-ansible` which will:
-1. Mount the data volume
-2. Set the hostname
-3. Create Linux users with environment-specific passwords (via vault)
-4. Register said users with SnapCenter via the API
-5. Lock the root account, as an environment-specific admin is created
+Once a server has been provisioned with this ami, post-run ansible is required to apply environment-specific configurations, including securing the root account:
+[netapp-snapcenter-ansible / 0-provision.yml](https://github.com/companieshouse/netapp-snapcenter-ansible#required-playbook)
+
+## Optional: Destroying a Data Volume
+To protect existing data volumes,`aws_ebs_volume.snapcenter_data` is set to  `prevent_destroy = true`
+
+If a full rebuild is ever required:
+1. Temporarily remove `prevent_destroy` from the `lifecycle` block in `instance.tf`
+2. `terraform-runner -g snapcenter -p [environment]-eu-west-2 -e [env-type] -c destroy`
+3. Revert `instance.tf` and confirm a clean `plan` before merging
+
+Note: This change will be shared across profiles, so protection will be off during this process; ensure you only target the intended environment(s) in step 2.
 
 ______________________  
 

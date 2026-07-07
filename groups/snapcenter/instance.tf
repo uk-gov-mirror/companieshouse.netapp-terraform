@@ -78,8 +78,8 @@ resource "aws_ebs_volume" "snapcenter_data" {
   })
 
   lifecycle {
-    ignore_changes  = [snapshot_id]
-    prevent_destroy = true
+    ignore_changes = [snapshot_id]
+    # prevent_destroy = true  # temporarily disabled for staging data volume rebuild - re-enable after destroy
   }
 }
 
