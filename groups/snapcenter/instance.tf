@@ -78,7 +78,7 @@ resource "aws_ebs_volume" "snapcenter_data" {
   })
 
   lifecycle {
-    ignore_changes  = [snapshot_id]
+    ignore_changes = [snapshot_id]
     prevent_destroy = true
   }
 }
